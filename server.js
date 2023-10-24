@@ -1,11 +1,6 @@
-const express = require('express');
+
 const mysql = require ('mysql2');
-
-const PORT = process.env.PORT || 3001; 
-const app = express();
-
-app.use(express.urlencoded ({ extended: false }));
-app.use(express.json());
+const inquirer = require('inquirer');
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -15,10 +10,24 @@ const db = mysql.createConnection({
 },
     console.log('Connected')
 );
-app.us((req, res) => {
-    res.status(404).end();
-});
 
-app.listen(PORT, () => {
-    console.log('Server running on port ${PORT}');
-});
+const questions = [
+    {
+      type: 'list',
+      name: 'employee_db',
+      message: 'which department would you like to view',
+      choices: ['Sales','Finance','Engineering','Logistics','Legal','Human Resources']
+    },
+]
+
+inquirer.prompt(questions)
+.then((answers) => {
+    if (answers.employee_db === 'Sales') {
+        const Sales = [{ 
+            type: 'list',
+            name: 'roles',
+            message: 'select a role from within the selected department',
+            choices: ['Sales Manager','']
+        }]
+    }
+})
