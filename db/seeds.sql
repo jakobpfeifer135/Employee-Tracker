@@ -6,6 +6,12 @@ VALUES (1, "Sales"),
 (5, "Legal"),
 (6, "Human Resources");
 
+(IF (SELECT COUNT(*) FROM department WHERE id = 1) = 1, DELETE FROM department WHERE id = 1),
+(IF (SELECT COUNT(*) FROM department WHERE id = 2) = 1, DELETE FROM department WHERE id = 2),
+(IF (SELECT COUNT(*) FROM department WHERE id = 3) = 1, DELETE FROM department WHERE id = 3),
+(IF (SELECT COUNT(*) FROM department WHERE id = 4) = 1, DELETE FROM department WHERE id = 4),
+(IF (SELECT COUNT(*) FROM department WHERE id = 5) = 1, DELETE FROM department WHERE id = 5),
+(IF (SELECT COUNT(*) FROM department WHERE id = 6) = 1, DELETE FROM department WHERE id = 6);
 
 INSERT INTO role (id, title, salary, department_id)
 VALUES (1, "Sales Manager", 80000.00 , 1),

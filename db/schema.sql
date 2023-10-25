@@ -6,16 +6,16 @@ USE employee_db;
 SELECT DATABASE();
 
 CREATE TABLE department (
-    id INT PRIMARY KEY,
-    name VARCHAR(30)
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL
 );
 
 
 CREATE TABLE role (
-    id INT PRIMARY KEY,
-    title VARCHAR(60),
-    salary DECIMAL(10, 2),
-    department_id INT
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255),
+  salary DECIMAL(10, 2),
+  department_id INT
 );
 
 CREATE TABLE employee (
