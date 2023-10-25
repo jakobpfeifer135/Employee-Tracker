@@ -163,22 +163,72 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-  db.query('SELECT * FROM role', (err, results) => {
+  const query = `
+    SELECT r.id AS role_id, r.title AS role_title, r.salary, d.name AS department_name
+    FROM role AS r
+    LEFT JOIN department AS d ON r.department_id = d.id
+  `;
+
+  db.query(query, (err, results) => {
     if (err) throw err;
-    console.log('List of Roles:');
-    results.forEach((row) => {
-      console.log(`ID: ${row.id}, Title: ${row.title}, Salary: ${row.salary}`);
-    });
-    displayOptions();
+    console.log('List of Roles with Associated Departments:');
+
+    const roleChoices = results.map((row) => ({
+      name: `Role: ${row.role_title}, Salary: ${row.salary}, Department: ${row.department_name}`,
+      value: row.role_id,
+    }));
+
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'selectedRole',
+          message: 'Select a role to see employees assigned to it:',
+          choices: roleChoices,
+        },
+      ])
+      .then((answers) => {
+        const selectedRoleId = answers.selectedRole;
+
+        // Query the database to get employees for the selected role
+        const employeesQuery = `
+          SELECT e.id, e.first_name, e.last_name
+          FROM employee AS e
+          WHERE e.role_id = ?`;
+
+        db.query(employeesQuery, [selectedRoleId], (err, employeeResults) => {
+          if (err) throw err;
+          console.log('Employees in the selected role:');
+          employeeResults.forEach((employee) => {
+            console.log(`ID: ${employee.id}, Name: ${employee.first_name} ${employee.last_name}`);
+          });
+          displayOptions();
+        });
+      });
   });
 }
 
 function viewEmployees() {
-  db.query('SELECT * FROM employee', (err, results) => {
+  const query = `
+    SELECT 
+      e.id, 
+      e.first_name, 
+      e.last_name, 
+      r.title AS role, 
+      r.salary, 
+      d.name AS department,
+      CONCAT(m.first_name, ' ', m.last_name) AS manager
+    FROM 
+      employee AS e
+      LEFT JOIN role AS r ON e.role_id = r.id
+      LEFT JOIN department AS d ON r.department_id = d.id
+      LEFT JOIN employee AS m ON e.manager_id = m.id`;
+
+  db.query(query, (err, results) => {
     if (err) throw err;
     console.log('List of Employees:');
     results.forEach((row) => {
-      console.log(`ID: ${row.id}, Name: ${row.first_name} ${row.last_name}`);
+      console.log(`ID: ${row.id}, Name: ${row.first_name} ${row.last_name}, Role: ${row.role}, Salary: ${row.salary}, Department: ${row.department}, Manager: ${row.manager || 'None'}`);
     });
     displayOptions();
   });

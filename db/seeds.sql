@@ -13,62 +13,73 @@ VALUES (1, "Sales"),
 (IF (SELECT COUNT(*) FROM department WHERE id = 5) = 1, DELETE FROM department WHERE id = 5),
 (IF (SELECT COUNT(*) FROM department WHERE id = 6) = 1, DELETE FROM department WHERE id = 6);
 
-INSERT INTO role (id, title, salary, department_id)
-VALUES (1, "Sales Manager", 80000.00 , 1),
-(2, "Sales Representative", 40000.00, 1),
-(3, "Sales Associate", 25000.00, 1),
-(4, "Account Executive", 116000.00, 1),
-(5, "Business Development Representative", 62000.00, 1),
-(6, "Sales Support Specialist", 51000.00, 1),
-(7, "Sales Trainer", 65000.00, 1),
-(8, "Regional Sales Manager", 140000.00, 1),
 
-(9, "Chief Financial Officer (CFO)", 240000, 2),
-(10, "Finance Manager", 82000.00, 2),
-(11, "Financial Analyst", 55000.00, 2),
-(12, "Accountant", 76500.00, 2),
-(13, "Tax Specialist", 69000.00, 2),
-(14, "Treasury Analyst", 46000.00, 2),
-(15, "Financial Planner", 47000.00, 2),
-(16, "Credit Analyst", 34000.00, 2),
+ALTER TABLE role
+ADD COLUMN manager_id INT NULL;
 
-(17, "Chief Technology Officer (CTO)", 145000.00, 3),
-(18, "Engineering Manager", 125000.00, 3),
-(19, "Software Engineer", 95000.00, 3),
-(20, "Project Engineer", 55000.00, 3),
-(21, "Electrical Engineer", 90000.00, 3),
-(22, "Mechanical Engineer", 120000.00, 3),
 
-(23, "Logistics Manager", 75000.00, 4),
-(24, "Supply Chain Analyst", 55000.00, 4),
-(25, "Warehouse Manager", 65000.00, 4),
-(26, "Transportation Manager", 65000.00, 4),
-(27, "Distribution Center Supervisor", 70000.00, 4),
-(28, "Route Planner", 48000.00, 4),
-(29, "Freight Broker", 45000.00, 4),
-(30, "Packaging Specialist", 35000.00, 4),
+INSERT INTO role (id, title, salary, department_id, manager_id)
+VALUES (1, "Sales Manager", 80000.00 , 1, NULL),
+(2, "Sales Representative", 40000.00, 1, 1),
+(3, "Sales Associate", 25000.00, 1, 1),
+(4, "Account Executive", 116000.00, 1, 1),
+(5, "Business Development Representative", 62000.00, 1, 1),
+(6, "Sales Support Specialist", 51000.00, 1, 1),
+(7, "Sales Trainer", 65000.00, 1, 1),
+(8, "Regional Sales Manager", 140000.00, 1, NULL),
 
-(31, "General Counsel", 215000.00, 5),
-(32, "In-House Counsel", 135000.00, 5),
-(33, "Corporate Counsel", 145000.00, 5),
-(34, "Compliance Officer", 75000.00, 5),
-(35, "Contracts Manager", 85000.00, 5),
-(36, "Litigation Attorney", 77000.00, 5),
-(37, "Privacy Officer", 65000.00, 5),
-(38, "Tax Attorney", 55000.00, 5),
+(9, "Chief Financial Officer (CFO)", 240000, 2, NULL),
+(10, "Finance Manager", 82000.00, 2, NULL),
+(11, "Financial Analyst", 55000.00, 2, 1),
+(12, "Accountant", 76500.00, 2, 1),
+(13, "Tax Specialist", 69000.00, 2, 1),
+(14, "Treasury Analyst", 46000.00, 2, 1),
+(15, "Financial Planner", 47000.00, 2, 1),
+(16, "Credit Analyst", 34000.00, 2, 1),
 
-(39, "Human Resources Manager", 70000.00, 6),
-(40, "HR Generalist", 65000.00, 6),
-(41, "Employee Relations Specialist", 55000.00, 6),
-(42, "Recruitment Specialist", 40000.00, 6),
-(43, "Training and Development Specialist", 57000.00, 6),
-(44, "HR Coordinator", 67000.00, 6),
-(45, "Health and Safety Officer", 68000.00, 6);
+(17, "Chief Technology Officer (CTO)", 145000.00, 3, NULL),
+(18, "Engineering Manager", 125000.00, 3, NULL),
+(19, "Software Engineer", 95000.00, 3, 1),
+(20, "Project Engineer", 55000.00, 3, 1),
+(21, "Electrical Engineer", 90000.00, 3, 1),
+(22, "Mechanical Engineer", 120000.00, 3, 1),
+
+(23, "Logistics Manager", 75000.00, 4, NULL),
+(24, "Supply Chain Analyst", 55000.00, 4, 1),
+(25, "Warehouse Manager", 65000.00, 4, NULL),
+(26, "Transportation Manager", 65000.00, 4, NULL),
+(27, "Distribution Center Supervisor", 70000.00, 4, 1),
+(28, "Route Planner", 48000.00, 4, 1),
+(29, "Freight Broker", 45000.00, 4, 1),
+(30, "Packaging Specialist", 35000.00, 4, 1),
+
+
+(31, "General Counsel", 215000.00, 5, 1),
+(32, "In-House Counsel", 135000.00, 5, 1),
+(33, "Corporate Counsel", 145000.00, 5, 1),
+(34, "Compliance Officer", 75000.00, 5, 1),
+(35, "Contracts Manager", 85000.00, 5, NULL),
+(36, "Litigation Attorney", 77000.00, 5, 1),
+(37, "Privacy Officer", 65000.00, 5, 1),
+(38, "Tax Attorney", 55000.00, 5, 1),
+
+
+
+(39, "Human Resources Manager", 70000.00, 6, NULL),
+(40, "HR Generalist", 65000.00, 6, 1),
+(41, "Employee Relations Specialist", 55000.00, 6, 1),
+(42, "Recruitment Specialist", 40000.00, 6, 1),
+(43, "Training and Development Specialist", 57000.00, 6, 1),
+(44, "HR Coordinator", 67000.00, 6, 1),
+(45, "Health and Safety Officer", 68000.00, 6, 1);
+
 
 
 
 ALTER TABLE employee ADD COLUMN salary DECIMAL(10, 2);
 
+
+ALTER TABLE employee ADD COLUMN department_id INT;
 
 
 INSERT INTO employee (id, first_name, last_name, role_id)
