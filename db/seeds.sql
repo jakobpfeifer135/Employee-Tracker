@@ -5,7 +5,7 @@ VALUES (1, "Sales"),
 (4, "Logistics"),
 (5, "Legal"),
 (6, "Human Resources");
-
+--issue with created departments showing as id 1-6 so i made sure to delete them if they overlap
 (IF (SELECT COUNT(*) FROM department WHERE id = 1) = 1, DELETE FROM department WHERE id = 1),
 (IF (SELECT COUNT(*) FROM department WHERE id = 2) = 1, DELETE FROM department WHERE id = 2),
 (IF (SELECT COUNT(*) FROM department WHERE id = 3) = 1, DELETE FROM department WHERE id = 3),
@@ -17,7 +17,7 @@ VALUES (1, "Sales"),
 ALTER TABLE role
 ADD COLUMN manager_id INT NULL;
 
-
+--these are a list of roles and their salaries
 INSERT INTO role (id, title, salary, department_id, manager_id)
 VALUES (1, "Sales Manager", 80000.00 , 1, NULL),
 (2, "Sales Representative", 40000.00, 1, 1),
@@ -81,7 +81,7 @@ ALTER TABLE employee ADD COLUMN salary DECIMAL(10, 2);
 
 ALTER TABLE employee ADD COLUMN department_id INT;
 
-
+--list of employees and their name and corresponding role
 INSERT INTO employee (id, first_name, last_name, role_id)
 VALUES
     (1, "John", "Doe", 1),  -- Sales Manager

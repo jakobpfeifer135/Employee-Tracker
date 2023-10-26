@@ -2,19 +2,22 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
 
+// Create a connection to the MySQL database
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'imacodernow@126422$',
+  password: 'your_password_here',
   database: 'employee_db',
 });
 
+// Connect to the database
 db.connect((err) => {
   if (err) throw err;
   console.log('Connected to MySQL database');
-  displayOptions();
+  displayOptions(); // Start the application by displaying options
 });
 
+// Function to display a list of available options to the user
 function displayOptions() {
   inquirer
     .prompt([
@@ -29,7 +32,7 @@ function displayOptions() {
           'View Department',
           'View Role',
           'View Employee',
-          'Update Employee Role', 
+          'Update Employee Role', // New option to update employee role
           'Exit',
         ],
       },
@@ -57,6 +60,7 @@ function displayOptions() {
     });
 }
 
+// Function to prompt for updating an employee's role
 function promptUpdateEmployeeRole() {
   inquirer
     .prompt([
@@ -89,7 +93,7 @@ function promptUpdateEmployeeRole() {
       });
     });
 }
-
+// prompt to handle adding a department to the database
 function promptAddDepartment() {
   inquirer.prompt([
     {
@@ -116,7 +120,7 @@ function promptAddDepartment() {
     });
   });
 }
-
+//a prompt to add a designated role to the database with salaries and what department they go too
 function promptAddRole() {
   inquirer.prompt([
     {
@@ -185,7 +189,7 @@ function viewDepartments() {
     { id: 5, name: 'Legal' },
     { id: 6, name: 'Human Resources' },
   ];
-
+//a query to show all seed based departments and user created departments
   db.query('SELECT * FROM department', (err, userDepartments) => {
     if (err) throw err;
 
@@ -205,7 +209,7 @@ function viewDepartments() {
     displayOptions();
   });
 }
-
+// used to show each role what it pays and the department it belongs too
 function viewRoles() {
   const query = `
     SELECT r.id AS role_id, r.title AS role_title, r.salary, d.name AS department_name
@@ -251,7 +255,7 @@ function viewRoles() {
       });
   });
 }
-
+// use this to view all of the employees in the database will all of their info
 function viewEmployees() {
   const query = `
     SELECT 
