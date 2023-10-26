@@ -1,11 +1,11 @@
 # Employee-Tracker
 
 - What was your motivation?
-to learn how to implement express.js into a local storage type program where we can store user data in real time
+to learn how to utilize databases and both having seeded data as well as user implemented data as well
 - Why did you build this project?
-to increase my familiarity with not only express.js but object oriented programming as well
+to increase my familiarity with not only inquirer but mysql as a whole 
 - What problem does it solve?
-storing user data in real time to utilize express.js client side servers
+storing user data in real time to utilize mysql as well as filtering data as much as possible for each individual table
 ## Table of Contents 
 
 
@@ -17,9 +17,9 @@ storing user data in real time to utilize express.js client side servers
 
 ## Installation
 
-follow my git repo link in the html or deployed link to access the rest of my work both future and past.
-https://dashboard.heroku.com/apps/mighty-refuge-69273/deploy/github
-https://github.com/jakobpfeifer135/Note-Taker-App
+follow my git repo link in the html or deployed link to access the rest of my work both future and past. this is a git hub link as well as a video link!
+https://github.com/jakobpfeifer135/Employee-Tracker
+https://drive.google.com/file/d/1zFuYhtZnM_8lFdvyAe_sqgZlMgHhXyZ-/view 
 ## Usage
    ![completed project](<./images/Screenshot 2023-10-25 214407.png>)
    ![completed project](<./images/Screenshot 2023-10-25 214351.png>)
