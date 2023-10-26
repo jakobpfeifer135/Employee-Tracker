@@ -22,7 +22,16 @@ function displayOptions() {
         type: 'list',
         name: 'options',
         message: 'What would you like to do?',
-        choices: ['Add Department', 'Add Role', 'Add Employee', 'View Department', 'View Role', 'View Employee', 'Exit'],
+        choices: [
+          'Add Department',
+          'Add Role',
+          'Add Employee',
+          'View Department',
+          'View Role',
+          'View Employee',
+          'Update Employee Role', 
+          'Exit',
+        ],
       },
     ])
     .then((optionAnswers) => {
@@ -39,10 +48,45 @@ function displayOptions() {
         viewRoles();
       } else if (selectedOption === 'View Employee') {
         viewEmployees();
+      } else if (selectedOption === 'Update Employee Role') { // Handle updating employee role
+        promptUpdateEmployeeRole();
       } else if (selectedOption === 'Exit') {
         db.end();
         console.log('Disconnected from MySQL database');
       }
+    });
+}
+
+function promptUpdateEmployeeRole() {
+  inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'employee_id',
+        message: 'Enter the ID of the employee you want to update:',
+      },
+      {
+        type: 'input',
+        name: 'new_role_id',
+        message: 'Enter the new role ID for the employee:',
+      },
+    ])
+    .then((answers) => {
+      const { employee_id, new_role_id } = answers;
+
+      // Update the employee's role in the database
+      const updateQuery = 'UPDATE employee SET role_id = ? WHERE id = ?';
+      db.query(updateQuery, [new_role_id, employee_id], (err, result) => {
+        if (err) throw err;
+
+        if (result.affectedRows === 1) {
+          console.log('Employee role updated successfully.');
+        } else {
+          console.log('Employee not found or role update failed.');
+        }
+
+        displayOptions();
+      });
     });
 }
 
