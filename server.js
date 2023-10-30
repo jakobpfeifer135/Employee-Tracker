@@ -205,56 +205,64 @@ function viewDepartments() {
     seedDepartments.forEach((row) => {
       console.log(`ID: ${row.id}, Name: ${row.name}`);
     });
-
+    console.table(userDepartments);
     displayOptions();
   });
 }
 // used to show each role what it pays and the department it belongs too
-function viewRoles() {
-  const query = `
-    SELECT r.id AS role_id, r.title AS role_title, r.salary, d.name AS department_name
-    FROM role AS r
-    LEFT JOIN department AS d ON r.department_id = d.id
-  `;
-
-  db.query(query, (err, results) => {
-    if (err) throw err;
-    console.log('List of Roles with Associated Departments:');
-
-    const roleChoices = results.map((row) => ({
-      name: `Role: ${row.role_title}, Salary: ${row.salary}, Department: ${row.department_name}`,
-      value: row.role_id,
-    }));
-
-    inquirer
-      .prompt([
-        {
-          type: 'list',
-          name: 'selectedRole',
-          message: 'Select a role to see employees assigned to it:',
-          choices: roleChoices,
-        },
-      ])
-      .then((answers) => {
-        const selectedRoleId = answers.selectedRole;
-
-        // Query the database to get employees for the selected role
-        const employeesQuery = `
-          SELECT e.id, e.first_name, e.last_name
-          FROM employee AS e
-          WHERE e.role_id = ?`;
-
-        db.query(employeesQuery, [selectedRoleId], (err, employeeResults) => {
-          if (err) throw err;
-          console.log('Employees in the selected role:');
-          employeeResults.forEach((employee) => {
-            console.log(`ID: ${employee.id}, Name: ${employee.first_name} ${employee.last_name}`);
-          });
-          displayOptions();
-        });
-      });
-  });
+const viewRoles = () => {
+  db.query('SELECT * from role', function(err,result,fields){
+    console.table(result)
+    displayOptions()
+  })
 }
+// function viewRoles() {
+//   const query = `
+//     SELECT r.id AS role_id, r.title AS role_title, r.salary, d.name AS department_name
+//     FROM role AS r
+//     LEFT JOIN department AS d ON r.department_id = d.id
+//   `;
+
+//   db.query(query, (err, results) => {
+//     if (err) throw err;
+//     console.log('List of Roles with Associated Departments:');
+
+//     const roleChoices = results.map((row) => ({
+//       name: `Role: ${row.role_title}, Salary: ${row.salary}, Department: ${row.department_name}`,
+//       value: row.role_id,
+//     }));
+
+//     inquirer
+//       .prompt([
+//         {
+//           type: 'list',
+//           name: 'selectedRole',
+//           message: 'Select a role to see employees assigned to it:',
+//           choices: roleChoices,
+//         },
+//       ])
+//       .then((answers) => {
+//         const selectedRoleId = answers.selectedRole;
+
+//         // Query the database to get employees for the selected role
+//         const employeesQuery = `
+//           SELECT e.id, e.first_name, e.last_name
+//           FROM employee AS e
+//           WHERE e.role_id = ?`;
+
+//         db.query(employeesQuery, [selectedRoleId], (err, employeeResults) => {
+//           if (err) throw err;
+//           console.log('Employees in the selected role:');
+//           employeeResults.forEach((employee) => {
+//             console.table(`ID: ${employee.id}, Name: ${employee.first_name} ${employee.last_name}`);
+//           });
+
+
+//           displayOptions();
+//         });
+//       });
+//   });
+// }
 // use this to view all of the employees in the database will all of their info
 function viewEmployees() {
   const query = `
@@ -278,6 +286,7 @@ function viewEmployees() {
     results.forEach((row) => {
       console.log(`ID: ${row.id}, Name: ${row.first_name} ${row.last_name}, Role: ${row.role}, Salary: ${row.salary}, Department: ${row.department}, Manager: ${row.manager || 'None'}`);
     });
+    console.table(results);
     displayOptions();
   });
 }
