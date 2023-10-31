@@ -167,10 +167,15 @@ function promptAddEmployee() {
       name: 'role_id',
       message: 'Enter role ID for the employee:',
     },
+    {
+      type: 'input',
+      name: 'manager_id',
+      message: 'Enter manager id',
+    },
   ]).then((answers) => {
-    const { first_name, last_name, role_id } = answers;
-    db.query('INSERT INTO employee (first_name, last_name, role_id) VALUES (?, ?, ?)',
-      [first_name, last_name, role_id],
+    const { first_name, last_name, role_id, manager_id } = answers;
+    db.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+      [first_name, last_name, role_id, manager_id],
       (err, result) => {
         if (err) throw err;
         console.log(`Added employee: ${first_name} ${last_name}`);
@@ -211,7 +216,7 @@ function viewDepartments() {
 }
 // used to show each role what it pays and the department it belongs too
 const viewRoles = () => {
-  db.query('SELECT * from role', function(err,result,fields){
+  db.query('SELECT role.id, role.title,  role.salary, department.name  FROM role LEFT JOIN department ON role.department_id = department.id ', function(err,result,fields){
     console.table(result)
     displayOptions()
   })

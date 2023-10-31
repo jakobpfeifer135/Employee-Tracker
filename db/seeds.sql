@@ -85,10 +85,7 @@ ALTER TABLE employee ADD COLUMN department_id INT;
 INSERT INTO employee (id, first_name, last_name, role_id)
 VALUES
     (1, "John", "Doe", 1),  
-    (2, "Alice", "Smith", 2),  
-    (3, "Bob", "Johnson", 3),  
-    (4, "Eva", "Williams", 4),  
-    (5, "Chris", "Brown", 5),  
+      
     (6, "Grace", "Davis", 6), 
     (7, "Mike", "Lee", 7),  
     (8, "Sarah", "Wilson", 8),  
@@ -131,8 +128,12 @@ VALUES
     (45, "Jackson", "Wilson", 45); 
 
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ( "Jackson", "Wilson", 45, 1);
+INSERT INTO employee (id,first_name, last_name, role_id, manager_id)
+VALUES (2, "Jackson", "Wilson", 45, 1),
+    (3, "Alice", "Smith", 2, 1),  
+    (4, "Bob", "Johnson", 3, 1),  
+    (5, "Eva", "Williams", 4, 1),  
+    (46, "Chris", "Brown", 5, 1);
 UPDATE employee AS e
 INNER JOIN role AS r ON e.role_id = r.id
 SET e.salary = r.salary;
